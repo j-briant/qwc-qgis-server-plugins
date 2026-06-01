@@ -159,11 +159,12 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
             )
 
             group = parent.insertGroup(pos, layer.name())
+            category_shortname = layer.serverProperties().shortName()
             for idx, category in enumerate(categories_list):
                 category_layer = layer.clone()
                 category_layer.serverProperties().setTitle(category.label())
                 category_layer.setName(category.label())
-                category_layer.serverProperties().setShortName(category.label())
+                category_layer.serverProperties().setShortName(f"{category_shortname}_{category.label()}")
                 category_layer.setCrs(layer.crs())
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "convert_categorized_layer", "false")
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "is_category_sublayer", "true")
